@@ -5,7 +5,7 @@ db = sqlite3.connect('PhoneBook.db')
 cursor = db.cursor()
 
 
-# создание БД без ID
+# создание БД
 # cursor.execute("""CREATE TABLE PhoneBook(
 #     name VARCHAR(30),
 #     number VARCHAR(30),
@@ -45,20 +45,18 @@ while True:
     cursor.execute("""SELECT * FROM PhoneBook GROUP BY name""")
     rows = cursor.fetchall()
 
-    # print(rows)
+
     # построчный вывод фамилия/номер
     for i in rows:
-        # сделать построчный вывод ф-строкой с указанием имя --- , номер ---- и т.д.
         print(" // ".join(map(str, i)))
-
     print('#' * 30)
 
-    # добавить в телефонную книгу
+    # добавить контакт в телефонную книгу
     user_input = input('Добавить контакт (Y/N): ')
     if user_input == 'Y':
-        name = input('Enter name: ')
-        number = input('Enter number: ')
-        notes = input('Enter notes: ')
+        name = input('Введите имя: ')
+        number = input('Введите номер: ')
+        notes = input('Введите заметки: ')
         values = [name, number, notes]
         cursor.execute("""INSERT INTO PhoneBook (name, number, notes) VALUES(?, ?, ?)""", values)
         db.commit()
@@ -70,8 +68,8 @@ while True:
 
     user_input = input("Изменить номер (Y/N): ")
     if user_input == 'Y':
-        new_number = input('Введите новый контакт: ')
-        name = input('Кому изменить контакт: ')
+        new_number = input('Введите новый номер: ')
+        name = input('Кому изменить номер: ')
         values = [new_number, name]
         cursor.execute("""UPDATE PhoneBook SET number == (?) WHERE name == (?)""", values)
         db.commit()
@@ -82,7 +80,7 @@ while True:
     user_input = input("Изменить notes (Y/N): ")
     if user_input == 'Y':
         new_notes = input('Введите примечания: ')
-        name = input('Кому изменить контакт: ')
+        name = input('Кому изменить примечания: ')
         values = [new_notes, name]
         cursor.execute("""UPDATE PhoneBook SET notes == (?) WHERE name == (?)""", values)
         db.commit()
@@ -99,9 +97,8 @@ while True:
     user_input = input('Удалить контакт (Y/N): ')
 
     if user_input == 'Y':
-        print('Удаляем')
-        name = input('Enter name: ')
-        number = input('Enter number: ')
+        name = input('Введите имя: ')
+        number = input('Введите номер: ')
         values = [name, number]
 
         cursor.execute("""DELETE FROM PhoneBook WHERE name == (?) AND number == (?)""", values)
@@ -115,22 +112,7 @@ while True:
         continue
     else:
 
-        print('goodbay')
+        print('Goodbye')
         db.close()
 
         break
-
-
-
-
-
-
-
-# поменят местами пункты: показать количество контактов,
-# найти контакт, затем остальные пункты (продумать как)
-
-
-
-# повторно запускать цикл без выхода из программы
-
-
